@@ -1,0 +1,244 @@
+/* ==================================== */
+/* 1. GENEL VE VÜCUT STİLLERİ */
+/* ==================================== */
+body {
+    font-family: 'Arial', sans-serif;
+    display: block; 
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+    color: #333;
+    background: #ffffff; 
+}
+
+/* Giriş ekranına açık renk gradient atanıyor (İlk tanımlama kalıyor) */
+#giris-ekrani {
+    background: linear-gradient(to right top, #ff9a9e, #fad0c4); 
+}
+
+/* Sürpriz ekranı için KOYU arka plan atanıyor */
+#surpriz-ekrani {
+    background: #111111;
+}
+
+/* ==================================== */
+/* 2. EKRAN GEÇİŞ STİLLERİ */
+/* ==================================== */
+.ekran {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    opacity: 0;
+    visibility: hidden; 
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
+    z-index: 10;
+}
+
+/* #giris-ekrani için opacity: 1 kuralı, .ekran.aktif ile çakıştığı için silinip .aktif sınıfına bırakıldı. */
+
+/* Aktif olan ekran görünür */
+.ekran.aktif {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==================================== */
+/* 3. İÇERİK VE KUTU STİLLERİ */
+/* ==================================== */
+
+/* Giriş ekranı başlık */
+#giris-ekrani h1 {
+    font-size: 2.5em;
+    color: #c2185b;
+    margin-bottom: 30px;
+    animation: bounceIn 1s ease-out;
+}
+
+/* Mobil için başlık boyutunu küçültme */
+@media (max-width: 600px) {
+    #giris-ekrani h1 {
+        font-size: 1.8em;
+    }
+}
+
+/* Giriş Butonu */
+#notu-ac-btn {
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    animation: pulse 1.5s infinite; 
+}
+#notu-ac-btn:hover {
+    background-color: #c2185b;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Ana İçerik Kapsayıcısı */
+.container {
+    padding: 25px;
+    max-width: 600px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.95); 
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); 
+    position: relative;
+    z-index: 1;
+    min-height: 400px; 
+}
+
+/* Gizli Durum */
+.surpriz-container.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.5s ease-out;
+}
+/* Görünür Durum */
+.surpriz-container.visible {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.5s ease-out;
+}
+
+/* Sürpriz Ekranı Başlığı */
+.container h1 {
+    color: #c2185b; 
+    font-size: 2.2em;
+    margin-bottom: 25px;
+}
+
+/* Mesaj Kutusu Metni */
+#mesaj-kutusu {
+    min-height: 100px; 
+    font-size: 1.25em; 
+    color: #555; 
+    margin: 25px 0;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* Mesaj Değiştir Butonu */
+#degistir-btn {
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 30px; 
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+#degistir-btn:hover {
+    background-color: #c2185b;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+#degistir-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ==================================== */
+/* 4. ANİMASYON ALANLARI VE KEYFRAMES */
+/* ==================================== */
+
+/* Havai Fişek ve Kalp Kapsayıcıları */
+#havai-fisek-alani, 
+#cicek-alani {
+    position: fixed; 
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; 
+    z-index: 5; 
+}
+
+/* Kalp şekli tanımı */
+.heart-shape {
+    position: relative;
+    background-color: #e91e63;
+    transform: rotate(-45deg);
+}
+
+.heart-shape::before,
+.heart-shape::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #e91e63;
+    border-radius: 50%;
+}
+.heart-shape::before { top: -50%; left: 0; }
+.heart-shape::after { left: 50%; top: 0; }
+
+/* ==================================== */
+/* 5. FOTOĞRAF ALANI STİLLERİ (KRİTİK) */
+/* ==================================== */
+
+#son-fotograf-alani {
+    /* Başlangıçta gizli olmalı, JS ile 'display: block' yapılacak */
+    display: none; 
+    margin-top: 35px;
+    padding: 10px;
+    animation: fadeIn 1s ease-out forwards;
+    text-align: center;
+}
+
+#son-fotograf-alani h2 {
+    color: #ff9a9e;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); 
+}
+
+#son-fotograf-alani img {
+    max-width: 90%; 
+    height: auto; 
+    border-radius: 20px; 
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2); 
+    border: 7px solid #e91e63; 
+    transition: all 0.4s ease-in-out;
+}
+
+#son-fotograf-alani img:hover {
+    transform: scale(1.03) rotate(1deg);
+    box-shadow: 0 20px 50px rgba(255, 255, 255, 0.4);
+}
+
+/* ==================================== */
+/* 6. ANİMASYON KEYFRAMES */
+/* ==================================== */
+
+/* Giriş ve Mesaj Animasyonları */
+@keyframes bounceIn { 0% { transform: scale(0.1); opacity: 0; } 60% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
+.fade-in { animation: fadeIn 0.4s ease-out forwards; }
+.fade-out { animation: fadeOut 0.2s ease-in forwards; }
+
+/* Havai Fişek */
+.firework { opacity: 0; z-index: 0; animation: fireworkExplode 1.5s ease-out forwards; }
+@keyframes fireworkExplode { 0% { transform: scale(0); opacity: 1; background-color: var(--firework-color); } 10% { opacity: 1; } 100% { transform: scale(1.5); opacity: 0; background-color: transparent; box-shadow: none; } }
+
+/* Kalp Düşüşü */
+.flower { z-index: 0; opacity: 0; animation: flowerFall 5s linear forwards; }
+@keyframes flowerFall { 0% { transform: translateY(-100px) rotate(0deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
